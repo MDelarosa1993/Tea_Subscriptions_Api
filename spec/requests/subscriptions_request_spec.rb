@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe Subscriptions, type: :requests do
+RSpec.describe Subscription, type: :requests do
   describe ''
 end
