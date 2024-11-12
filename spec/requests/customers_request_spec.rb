@@ -6,8 +6,8 @@ RSpec.describe Customer, type: :request do
       customer = Customer.create!(first_name: "Melchor", last_name: "De La Rosa", email: "m@dev.com", address: "123 main st")
       tea = Tea.create!(title: "Grean tea", description: "Healthy", temperature: 70, brew_time: 2)
       tea_2 = Tea.create!(title: "Black tea", description: "Healthy", temperature: 70, brew_time: 2)
-      subscription = Subscription.create!(title: "Tea Sub", price: 20.99, status: "active", frequency: "Yearly", customer_id: customer.id)
-      subscription_2 = Subscription.create!(title: "Tea Sub", price: 20.99, status: "canceled", frequency: "Yearly", customer_id: customer.id)
+      subscription = Subscription.create!(title: "Tea Sub", price: 20.99, status: "active", frequency: "yearly", customer_id: customer.id)
+      subscription_2 = Subscription.create!(title: "Tea Sub", price: 20.99, status: "cancelled", frequency: "yearly", customer_id: customer.id)
       SubscriptionTea.create(tea_id: tea.id, subscription_id: subscription.id)
       SubscriptionTea.create(tea_id: tea_2.id, subscription_id: subscription_2.id)
       
@@ -24,7 +24,7 @@ RSpec.describe Customer, type: :request do
       expect(first_subscription[:attributes][:title]).to eq("Tea Sub")
       expect(first_subscription[:attributes][:price]).to eq("20.99")
       expect(first_subscription[:attributes][:status]).to eq("active")
-      expect(first_subscription[:attributes][:frequency]).to eq("Yearly")
+      expect(first_subscription[:attributes][:frequency]).to eq("yearly")
       
       first_subscription_teas = first_subscription[:attributes][:teas]
       expect(first_subscription_teas.size).to eq(1)
@@ -37,8 +37,8 @@ RSpec.describe Customer, type: :request do
       expect(second_subscription[:type]).to eq("subscription")
       expect(second_subscription[:attributes][:title]).to eq("Tea Sub")
       expect(second_subscription[:attributes][:price]).to eq("20.99")
-      expect(second_subscription[:attributes][:status]).to eq("canceled")
-      expect(second_subscription[:attributes][:frequency]).to eq("Yearly")
+      expect(second_subscription[:attributes][:status]).to eq("cancelled")
+      expect(second_subscription[:attributes][:frequency]).to eq("yearly")
       
       second_subscription_teas = second_subscription[:attributes][:teas]
       expect(second_subscription_teas.size).to eq(1)
