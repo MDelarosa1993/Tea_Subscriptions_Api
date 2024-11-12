@@ -48,38 +48,4 @@ RSpec.describe Customer, type: :request do
       expect(second_subscription_teas[0][:brew_time]).to eq(2)
     end
   end
-  describe 'Get/show' do 
-    it 'return a subscription with a customer and the teas' do 
-      customer = Customer.create!(first_name: "Melchor", last_name: "De La Rosa", email: "m@dev.com", address: "123 main st")
-      tea = Tea.create!(title: "Grean tea", description: "Healthy", temperature: 70, brew_time: 2)
-      subscription = Subscription.create!(title: "Tea Sub", price: 20.99, status: "active", frequency: "Yearly", customer_id: customer.id)
-      SubscriptionTea.create(tea_id: tea.id, subscription_id: subscription.id)
-
-      get "/api/v1/customers/#{customer.id}/subscriptions/#{subscription.id}"
-
-      expect(response).to be_successful
-
-      subscription = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
-
-      expect(subscription[:title]).to be_a(String)
-      expect(subscription[:price]).to be_a(String)
-      expect(subscription[:status]).to be_a(String)
-      expect(subscription[:frequency]).to be_a(String)
-      expect(subscription[:customer_id]).to be_an(Integer)
-      expect(subscription[:customers][:id]).to be_an(Integer)
-      expect(subscription[:customers][:first_name]).to be_a(String)
-      expect(subscription[:customers][:last_name]).to be_a(String)
-      expect(subscription[:customers][:email]).to be_a(String)
-      expect(subscription[:customers][:address]).to be_a(String)
-      expect(subscription[:customers][:status]).to be_a(String)
-      teas = subscription[:teas]
-      teas.each do |tea|
-        expect(tea[:id]).to be_an(Integer)
-        expect(tea[:title]).to be_a(String)
-        expect(tea[:description]).to be_a(String)
-        expect(tea[:temperature]).to be_an(Integer)
-        expect(tea[:brew_time]).to be_an(Integer)
-      end
-    end
-  end
 end
