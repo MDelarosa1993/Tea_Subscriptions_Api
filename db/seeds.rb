@@ -79,7 +79,7 @@ subscription1 = Subscription.create(
 subscription2 = Subscription.create(
   title: 'Weekly Black Tea Subscription',
   price: 9.99,
-  status: 'canceled',
+  status: 'active',
   frequency: 'weekly',
   customer: customer1
 )
@@ -93,10 +93,10 @@ subscription3 = Subscription.create(
 )
 
 subscription4 = Subscription.create(
-  title: 'Bi-weekly Chamomile Tea Subscription',
+  title: 'Weekly Chamomile Tea Subscription',
   price: 12.99,
   status: 'active',
-  frequency: 'bi-weekly',
+  frequency: 'weekly',
   customer: customer3
 )
 
@@ -111,7 +111,7 @@ subscription5 = Subscription.create(
 subscription6 = Subscription.create(
   title: 'Weekly White Tea Subscription',
   price: 14.99,
-  status: 'canceled',
+  status: 'active',
   frequency: 'weekly',
   customer: customer4
 )
