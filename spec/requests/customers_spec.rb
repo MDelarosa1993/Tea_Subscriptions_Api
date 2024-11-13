@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Customers", type: :request do
+RSpec.describe Customer, type: :request do
   describe "GET /index" do
     it "returns http success" do
       Customer.create!(first_name: "Melchor", last_name: "De La Rosa", email: "m@dev.com", address: "123 main st")

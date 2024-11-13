@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Teas", type: :request do
+RSpec.describe Tea, type: :request do
   describe "GET /index" do
     it "returns all teas" do
       Tea.create!(title: "Grean tea", description: "Healthy", temperature: 70, brew_time: 2)
