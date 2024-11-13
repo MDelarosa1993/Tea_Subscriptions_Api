@@ -47,5 +47,24 @@ RSpec.describe Customer, type: :request do
       expect(second_subscription_teas[0][:temperature]).to eq(70)
       expect(second_subscription_teas[0][:brew_time]).to eq(2)
     end
+
+    it 'returns an error message id customer doesnt exist' do 
+      customer = Customer.create!(first_name: "Melchor", last_name: "De La Rosa", email: "m@dev.com", address: "123 main st")
+      tea = Tea.create!(title: "Grean tea", description: "Healthy", temperature: 70, brew_time: 2)
+      tea_2 = Tea.create!(title: "Black tea", description: "Healthy", temperature: 70, brew_time: 2)
+      subscription = Subscription.create!(title: "Tea Sub", price: 20.99, status: "active", frequency: "yearly", customer_id: customer.id)
+      subscription_2 = Subscription.create!(title: "Tea Sub", price: 20.99, status: "cancelled", frequency: "yearly", customer_id: customer.id)
+      SubscriptionTea.create(tea_id: tea.id, subscription_id: subscription.id)
+      SubscriptionTea.create(tea_id: tea_2.id, subscription_id: subscription_2.id)
+      
+      get "/api/v1/customers/3000/subscriptions"
+
+      expect(response).to have_http_status(404)
+
+      error = JSON.parse(response.body, symbolize_names: true)[:errors]
+      
+      expect(error[0][:status]).to eq('404')
+      expect(error[0][:message]).to eq("Record not found: Couldn't find Customer with 'id'=3000")
+    end
   end
 end

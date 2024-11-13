@@ -1,12 +1,11 @@
-Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+Rails.application.routes.draw do  
   get "/api/v1/customers/:customer_id/subscriptions", to: "api/v1/subscriptions#index"
   get "/api/v1/customers/:customer_id/subscriptions/:id", to: "api/v1/subscriptions#show"
   patch "/api/v1/customers/:customer_id/subscriptions/:id", to: "api/v1/subscriptions#update"
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+
+  get '/api/v1/customers', to: "api/v1/customers#index"
+
+  get '/api/v1/teas', to: "api/v1/teas#index"
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Defines the root path route ("/")
-  # root "posts#index"
 end
