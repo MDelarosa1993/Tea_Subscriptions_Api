@@ -21,7 +21,7 @@ teas.each do |tea|
 end
 
 10.times do |i|
-  customer = Customer.order('RANDOM()').first # Randomly select a customer
+  customer = Customer.order('RANDOM()').first 
   Subscription.create(
     title: "#{['Monthly', 'Weekly', 'Yearly'].sample} #{['Earthy', 'Yuck!', 'Herbal', 'Sleepy', 'IDK', 'Tea'].sample} Tea Subscription",
     price: rand(9.99..25.99).round(2),
@@ -32,7 +32,7 @@ end
 end
 
 Subscription.all.each do |subscription|
-  random_teas = Tea.order('RANDOM()').limit(rand(2..4)) # Randomly select 2 to 4 teas
+  random_teas = Tea.order('RANDOM()').limit(rand(2..4)) 
   random_teas.each do |tea|
     SubscriptionTea.create(
       subscription: subscription,
