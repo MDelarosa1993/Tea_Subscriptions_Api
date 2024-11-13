@@ -9,8 +9,7 @@ class SubscriptionSerializer
       first_name: customer.first_name,
       last_name: customer.last_name,
       email: customer.email,
-      address: customer.address,
-      status: subscription.status
+      address: customer.address
     }
   end
 
