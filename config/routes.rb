@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   patch "/api/v1/subscriptions/:id", to: "api/v1/subscriptions#update"
 
   get '/api/v1/customers', to: "api/v1/customers#index"
+  get '/api/v1/customers/:id', to: "api/v1/customers#show"
 
   get '/api/v1/teas', to: "api/v1/teas#index"
   get "up" => "rails/health#show", as: :rails_health_check

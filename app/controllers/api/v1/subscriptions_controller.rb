@@ -1,10 +1,10 @@
 class Api::V1::SubscriptionsController < ApplicationController
   def index
-    begin
-      subscriptions = Subscription.includes(:customer, :teas).all
+    subscriptions = Subscription.includes(:customer, :teas).all
+    if subscriptions.empty?
+      render json: { message: "No subscriptions found" }, status: :not_found
+    else
       render json: SubscriptionSerializer.new(subscriptions)
-    rescue ActiveRecord::RecordNotFound => e
-      render json: ErrorSerializer.error_message(404, "Record not found: #{e.message}"), status: :not_found
     end
   end
 
