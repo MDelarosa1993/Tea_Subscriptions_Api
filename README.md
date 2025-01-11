@@ -1,142 +1,213 @@
-# README
-ruby version 3.2.2
-run bundle install
-For database creation: rails db:{drop,create,migrate,seed}
-For rspec test run: bundle exec rspec
-[Table_Associations](image.png)
+# **Tea Subscription API** 🍵
+
+A Ruby on Rails API for managing tea subscriptions, allowing customers to explore curated tea selections, manage subscription statuses, and access detailed tea information.
 
 ---
 
-# Tea Subscription App
-
-## Table of Contents
+## **Table of Contents**
 1. [Overview](#overview)
 2. [Features](#features)
 3. [Installation](#installation)
 4. [Usage](#usage)
 5. [API Endpoints](#api-endpoints)
-6. [Technologies Used](#technologies-used)
-7. [Contributing](#contributing)
-8. [License](#license)
+6. [Database Schema](#database-schema)
+7. [Testing](#testing)
+8. [Technologies Used](#technologies-used)
+9. [Contributing](#contributing)
+10. [License](#license)
 
 ---
 
-### Overview
+## **Overview**
 
-**Tea Subscription App** is a Rails-based web application that allows Customers to subscribe to receive curated selections of teas on a weekly, monthty basis. The app offers different subscription plans.
+The **Tea Subscription API** is a backend application built with Ruby on Rails. It enables customers to manage subscriptions for weekly, monthly, or yearly tea plans. Each subscription includes details about teas, such as brewing instructions and temperatures, and customers can activate or cancel subscriptions seamlessly.
 
----
-
-### Features
-{
-    "data": [
-        {
-            "id": "9",
-            "type": "subscription",
-            "attributes": {
-                "title": "Monthly Herbal Tea Subscription",
-                "price": "21.12",
-                "status": "active",
-                "frequency": "weekly",
-                "customer_id": 6,
-                "customers": {
-                    "id": 6,
-                    "first_name": "Eva",
-                    "last_name": "Wilson",
-                    "email": "user6@example.com",
-                    "address": "8357 Elm Street, Springfield, IL"
-                },
-                "teas": [
-                    {
-                        "id": 3,
-                        "title": "Herbal Tea",
-                        "description": "A calming herbal tea.",
-                        "temperature": 85,
-                        "brew_time": 4
-                    },
-                    {
-                        "id": 1,
-                        "title": "Green Tea",
-                        "description": "A refreshing green tea.",
-                        "temperature": 80,
-                        "brew_time": 3
-                    }
-                ]
-            }
-        },
-   ]
-} 
-
+This API was developed with a clean structure, leveraging ActiveRecord for ORM and RSpec for testing. All controllers and models are thoroughly tested without the use of external gems like FactoryBot or Faker.
 
 ---
 
-### Installation
+## **Features**
 
-To set up and run this app locally, follow these steps:
+### **Customer Management**
+- View customer details including name, email, and address.
+- Retrieve individual customer information or all customers.
+
+### **Subscription Management**
+- View all subscriptions, including associated teas and customers.
+- Activate or cancel subscriptions.
+- Filter subscriptions by their status (`active` or `cancelled`).
+
+### **Tea Details**
+- View available teas with attributes such as:
+  - Title
+  - Description
+  - Brewing temperature
+  - Brew time
+
+---
+
+## **Installation**
+
+To set up the app locally, follow these steps:
 
 1. Clone the repository:
-   git clone https://github.com/MDelarosa1993/rails-api-starter-take-home.git
+   ```bash
+   git clone https://github.com/MDelarosa1993/Tea_Subscriptions_Api.git
+   ```
 
 2. Navigate to the project directory:
+   ```bash
    cd rails-api-starter-take-home
+   ```
 
 3. Install the required gems:
+   ```bash
    bundle install
+   ```
 
 4. Set up the database:
-   rails db:create
-   rails db:migrate
+   ```bash
+   rails db:{drop,create,migrate,seed}
+   ```
 
-5. Seed the database with some sample data (optional):
-   rails db:seed
-
-6. Start the Rails server:
+5. Run the Rails server:
+   ```bash
    rails server
+   ```
 
-Your app will be running at `http://localhost:3000`.
+The app will be running at `http://localhost:3000`.
+This api is consumed by a FE: https://github.com/MDelarosa1993/Tea_Subscriptions
+---
+
+## **Usage**
+
+### Running the Server
+Start the Rails server to enable the API endpoints:
+```bash
+rails server
+```
+
+### Testing the Application
+Run the RSpec tests for models and controllers:
+```bash
+bundle exec rspec
+```
 
 ---
 
-### Usage
+## **API Endpoints**
 
+### **Customers**
+- `GET /api/v1/customers`  
+  Retrieve all customers.
+
+- `GET /api/v1/customers/:id`  
+  Retrieve details of a specific customer.
+
+### **Subscriptions**
+- `GET /api/v1/subscriptions`  
+  Retrieve all subscriptions, including associated teas and customers.
+
+- `GET /api/v1/subscriptions/:id`  
+  Retrieve details of a specific subscription, including teas and the associated customer.
+
+- `PATCH /api/v1/subscriptions/:id`  
+  Update the status of a subscription (e.g., activate or cancel).
+
+### **Teas**
+- `GET /api/v1/teas`  
+  Retrieve all available teas.
 
 ---
 
-### API Endpoints
+## **Database Schema**
 
-Here’s a list of available API endpoints:
+### **Tables and Relationships**
 
-- `GET http://localhost:3000/api/v1/subscriptions` - Get all subscription plans for a customer and teas.
-- `PATCH http://localhost:3000/api/v1/subscriptions/:id` - Get one subscription with the customer associated with it and the teas the subscription has.
-- `PATCH http://localhost:3000/api/v1/subscriptions/:id` - Cancel or activate a subscription plan.
-- `GET http://localhost:3000/api/v1/teas` - View available teas.
-- `GET http://localhost:3000/api/v1/customers` - View available customers.
+- **Customers**:  
+  Customers have many subscriptions.
+
+- **Subscriptions**:  
+  Subscriptions belong to a customer and have many teas through a join table.
+
+- **Teas**:  
+  Teas are included in multiple subscriptions through a join table.
+
+![Database Schema](image.png)
+
+**Example Schema Structure:**
+```ruby
+create_table "customers" do |t|
+  t.string "first_name"
+  t.string "last_name"
+  t.string "email"
+  t.string "address"
+end
+
+create_table "subscriptions" do |t|
+  t.string "title"
+  t.decimal "price"
+  t.string "status"
+  t.string "frequency"
+  t.bigint "customer_id"
+end
+
+create_table "teas" do |t|
+  t.string "title"
+  t.text "description"
+  t.integer "temperature"
+  t.integer "brew_time"
+end
+```
 
 ---
 
-### Technologies Used
+## **Testing**
 
-- **Ruby on Rails**: Framework used for building the backend of the app.
-- **PostgreSQL**: Database for storing user, subscription, and tea data.
-- **ActiveRecord**: ORM used for interacting with the database.
+- All models and controllers are thoroughly tested using **RSpec**.
+- Tests validate:
+- Model validations (e.g., presence, numericality).
+- Controller responses (e.g., successful retrieval, error handling).
+- No external testing gems like FactoryBot or Faker were used.
+
+To run tests:
+```bash
+bundle exec rspec
+```
+
+---
+
+## **Technologies Used**
+
+- **Ruby (v3.2.2)**: Programming language.
+- **Ruby on Rails**: Framework for building the backend.
+- **PostgreSQL**: Database for managing persistent data.
 - **RSpec**: Testing framework for unit and integration tests.
+- **JSON:API Serializer**: For rendering data in a JSON:API-compliant format.
 
 ---
 
-### Contributing
+## **Contributing**
+
+We welcome contributions to the project! To contribute:
 
 1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Make your changes and commit them (`git commit -am 'Add new feature'`).
-4. Push to the branch (`git push origin feature-branch`).
+2. Create a new branch:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Make your changes and commit:
+   ```bash
+   git commit -m "Add new feature"
+   ```
+4. Push the branch:
+   ```bash
+   git push origin feature-name
+   ```
 5. Create a pull request.
 
 ---
 
-### License
+## **License**
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-This version of the README is specific to your Tea Subscription App and focuses on user and admin functionality, subscriptions, and tea management, as well as offering API endpoints for backend operations. You can adjust the details depending on your app's specific features.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
