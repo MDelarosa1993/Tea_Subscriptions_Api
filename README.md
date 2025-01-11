@@ -28,6 +28,44 @@ For rspec test run: bundle exec rspec
 ---
 
 ### Features
+{
+    "data": [
+        {
+            "id": "9",
+            "type": "subscription",
+            "attributes": {
+                "title": "Monthly Herbal Tea Subscription",
+                "price": "21.12",
+                "status": "active",
+                "frequency": "weekly",
+                "customer_id": 6,
+                "customers": {
+                    "id": 6,
+                    "first_name": "Eva",
+                    "last_name": "Wilson",
+                    "email": "user6@example.com",
+                    "address": "8357 Elm Street, Springfield, IL"
+                },
+                "teas": [
+                    {
+                        "id": 3,
+                        "title": "Herbal Tea",
+                        "description": "A calming herbal tea.",
+                        "temperature": 85,
+                        "brew_time": 4
+                    },
+                    {
+                        "id": 1,
+                        "title": "Green Tea",
+                        "description": "A refreshing green tea.",
+                        "temperature": 80,
+                        "brew_time": 3
+                    }
+                ]
+            }
+        },
+   ]
+} 
 
 
 ---
